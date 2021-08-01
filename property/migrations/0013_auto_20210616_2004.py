@@ -8,9 +8,8 @@ def set_flat_owners(apps, scheme_editor):
     Owner = apps.get_model('property', 'Owner')
     for owner in Owner.objects.all().iterator():
         for owner_flat in owner.owner_flats.all():
-            flat, created = Flat.objects.get_or_create(id=owner_flat.id)
+            flat = Flat.objects.get(id=owner_flat.id)
             flat.owner.add(owner)
-            flat.save()
 
 
 class Migration(migrations.Migration):

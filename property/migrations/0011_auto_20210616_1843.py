@@ -7,10 +7,13 @@ def fill_flat_owners(apps, scheme_editor):
     Flat = apps.get_model('property', 'Flat')
     Owner = apps.get_model('property', 'Owner')
     for flat in Flat.objects.all().iterator():
-        owner, created = Owner.objects.get_or_create(owner=flat.owner, owners_phonenumber=flat.owners_phonenumber,
-                                                     owner_pure_phone=flat.owner_pure_phone)
+        owner, created = Owner.objects.get_or_create(
+            owner=flat.owner,
+            defaults={
+                'owner_pure_phone': flat.owner_pure_phone,
+                'owners_phonenumber': flat.owners_phonenumber,
+            })
         owner.owner_flats.add(flat)
-        owner.save()
 
 
 class Migration(migrations.Migration):
