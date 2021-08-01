@@ -7,10 +7,7 @@ MIN_CONSTRUCTION_YEAR = 2015
 
 def set_new_building_property(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    for flat in Flat.objects.all().iterator():
-        is_new_building = flat.construction_year >= MIN_CONSTRUCTION_YEAR
-        flat.new_building = is_new_building
-        flat.save()
+    Flat.objects.filter(construction_year__gte=MIN_CONSTRUCTION_YEAR).update(new_building=True)
 
 
 class Migration(migrations.Migration):
